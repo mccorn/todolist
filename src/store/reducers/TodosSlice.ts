@@ -5,12 +5,12 @@ const data = [
   {
     id: 1,
     title: "clone repo",
-    done: true,
+    done: false,
   },
   {
     id: 2,
     title: "create app 2",
-    done: false,
+    done: true,
   },
   {
     id: 3,
