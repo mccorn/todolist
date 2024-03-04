@@ -1,33 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
+import Todo from './components/Todo/Todo'
+import { RootState } from './store';
+import { patchTodo, removeTodoById } from './store/reducers/TodosSlice';
+import CreateForm from './widgets/CreateForm/CreateForm';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const { editMode, setEditMode } = useState(false);
+  const { todos } = useSelector((state: RootState) => state.todos);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id: string | number) => dispatch(removeTodoById(id));
+  const handleChangeDone = (id: string | number, done: boolean) => dispatch(patchTodo({id, done}));
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CreateForm />
+      {todos?.length
+        ? todos.map(todo => <Todo
+          key={todo.id}
+          data={todo}
+          onDelete={() => handleDelete(todo.id)}
+          onDone={() => handleChangeDone(todo.id, !todo.done)}
+        />)
+        : 'empty list'
+      }
     </>
   )
 }

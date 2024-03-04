@@ -1,0 +1,28 @@
+.todoCard {
+  width: 400px;
+  overflow: hidden;
+
+  border: 2px solid #dddddd;
+  background-color: #dddddd40;
+  padding: 20px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.todoCard.done {
+  border-color: green;
+  background-color: #00FF0020;
+}
+
+.todoCard__header,
+.todoCard__body {
+  flex: 1
+}
+
+.todoCard__body p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+}
