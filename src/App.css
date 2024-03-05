@@ -45,6 +45,7 @@
 .form {
   display: flex;
   width: 400px;
+  gap: 10px;
 }
 
 .panel {

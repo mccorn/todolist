@@ -17,41 +17,44 @@ const data = [
     title: "commit",
     done: false,
   }
-]
+];
+data;
 
-type ProductsState = {
+export type TodosState = {
   todos: TodoData[]
 }
 
-const initialState: ProductsState = {
-  todos: data,
-  // todos: [],
+const initialState: TodosState = {
+  todos: JSON.parse(localStorage.getItem('todos') || '') || [],
 }
 
-export const ProductsSlice = createSlice({
-  name: 'products',
+export const TodosSlice = createSlice({
+  name: 'todos',
   initialState,
   reducers: {
-    setTodos: (state, action) => {
-      state.todos = [...action.payload]
-    },
     removeTodoById: (state, action) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
+      localStorage.setItem('todos', JSON.stringify(state.todos))
     },
     addTodo: (state, action) => {
       state.todos.push({
-        id: state.todos.length + 1,
+        id: Date.now().toString(36),
         title: action.payload,
         done: false,
       })
+
+      localStorage.setItem('todos', JSON.stringify(state.todos))
     },
     patchTodo: (state, action) => {
       const todo = state.todos.find(data => data.id === action.payload.id)
-      if (todo) Object.assign(todo, action.payload)
+      if (todo) {
+        Object.assign(todo, action.payload)
+        localStorage.setItem('todos', JSON.stringify(state.todos))
+      }
     }
   }
 })
 
-export const { setTodos, removeTodoById, addTodo, patchTodo } = ProductsSlice.actions
+export const { removeTodoById, addTodo, patchTodo } = TodosSlice.actions
 
-export default ProductsSlice.reducer
+export default TodosSlice.reducer

@@ -30,7 +30,7 @@ function Todo({ data, onDelete, onDone }: TodoProps) {
   }, [data, editValue, dispatch])
 
   return (
-    <div className={classNames('todoCard flex', { done: data.done })}>
+    <div id={`todo-${data.id}`} className={classNames('todoCard flex', { done: data.done })}>
       <div className='todoCard__body column'>
         <div className='todoCard__header flex'>
           <input className='todoCard__checkbox'
@@ -38,7 +38,6 @@ function Todo({ data, onDelete, onDone }: TodoProps) {
             checked={data.done}
             onChange={onDone}
           />
-          <div>{data.id}</div>
           <div>
             {editMode
               ? <input value={editValue} onChange={(e) => handleChangeEditValue(e.target.value)}/>
