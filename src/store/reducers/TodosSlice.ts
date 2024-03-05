@@ -32,6 +32,9 @@ export const TodosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
+    setTodos: (state, action) => {
+      state.todos = action.payload
+    },
     removeTodoById: (state, action) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
       localStorage.setItem('todos', JSON.stringify(state.todos))
@@ -55,6 +58,6 @@ export const TodosSlice = createSlice({
   }
 })
 
-export const { removeTodoById, addTodo, patchTodo } = TodosSlice.actions
+export const { removeTodoById, addTodo, patchTodo, setTodos } = TodosSlice.actions
 
 export default TodosSlice.reducer
