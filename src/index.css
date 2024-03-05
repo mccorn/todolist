@@ -68,3 +68,7 @@ input {
 
   gap: 10px;
 }
+
+.hidden {
+  display: none;
+}

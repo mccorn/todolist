@@ -19,6 +19,17 @@
   flex: 1
 }
 
+.todoCard__input {
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  border: none;
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 0;
+  font-size: 1em;
+  min-height: inherit;
+}
+
 .todoCard__body p {
   display: -webkit-box;
   -webkit-line-clamp: 3;
