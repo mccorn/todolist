@@ -5,8 +5,16 @@ export type TodosState = {
   todos: TodoData[]
 }
 
+const getDataFromLocalStorage = (keyName: string, fallback: unknown) => {
+  try {
+      return JSON.parse(localStorage.getItem(keyName) || '');
+  } catch (error) {
+      return fallback;
+  }
+};
+
 const initialState: TodosState = {
-  todos: JSON.parse(localStorage.getItem('todos') || '') || [],
+  todos: getDataFromLocalStorage('todos', []),
 }
 
 export const TodosSlice = createSlice({
