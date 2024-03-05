@@ -21,6 +21,8 @@ function App() {
       () => todos,
       () => todos.slice(0).sort((a, b) => +b.done - +a.done),
       () => todos.slice(0).sort((a, b) => +a.done - +b.done),
+      () => todos,
+      () => todos,
     ]
 
     return sortFunctions[filter]?.()
@@ -55,10 +57,12 @@ function App() {
           <option value={0}>Без сортировки</option>
           <option value={1}>Сначала выполненные</option>
           <option value={2}>Сначала невыполненные</option>
+          <option value={3}>Только выполненные</option>
+          <option value={4}>Только невыполненные</option>
         </select>
       </div>
 
-      <TodosList data={sortedTodos} />
+      <TodosList data={sortedTodos} filter={filter}/>
     </DragDropContext>
   )
 }

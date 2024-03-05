@@ -13,7 +13,7 @@
 
 ### Основные скрипты: 
 ```npm run dev``` - запуск dev-сервера\
-```npm run build``` - сборка проекта
+```npm run build``` - сборка проекта\
 ```npm run deploy``` - деплой на gh-pages проекта
 
 <hr>
