@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useMemo, useState } from 'react';
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
-import Todo from './components/Todo/Todo'
 import { RootState } from './store';
-import { patchTodo, removeTodoById } from './store/reducers/TodosSlice';
+import { setTodos } from './store/reducers/TodosSlice';
 import CreateForm from './widgets/CreateForm/CreateForm';
 
 import './App.css'
+import TodosList from './widgets/TodosList/TodosList';
 
 function App() {
   const [filter, setFilter] = useState(0);
@@ -14,9 +15,7 @@ function App() {
   const dispatch = useDispatch();
 
   const handleChangeFilter = (value: number) => setFilter(value);
-  const handleDelete = (id: string | number) => dispatch(removeTodoById(id));
-  const handleChangeDone = (id: string | number, done: boolean) => dispatch(patchTodo({ id, done }));
-
+  
   const sortedTodos = useMemo(() => {
     const sortFunctions = [
       () => todos,
@@ -27,8 +26,29 @@ function App() {
     return sortFunctions[filter]?.()
   }, [filter, todos])
 
+
+  const reorder = (list: unknown[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+  
+    return result;
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const items = reorder(
+      todos,
+      result.source.index,
+      result.destination.index
+    );
+
+    dispatch(setTodos(items))
+  }
+
   return (
-    <>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className='panel'>
         <CreateForm />
         <select value={filter} onChange={(e) => handleChangeFilter(+e.target.value)}>
@@ -37,16 +57,9 @@ function App() {
           <option value={2}>Сначала невыполненные</option>
         </select>
       </div>
-      {sortedTodos?.length
-        ? sortedTodos.map(todo => <Todo
-          key={todo.id}
-          data={todo}
-          onDelete={() => handleDelete(todo.id)}
-          onDone={() => handleChangeDone(todo.id, !todo.done)}
-        />)
-        : 'empty list'
-      }
-    </>
+
+      <TodosList data={sortedTodos} />
+    </DragDropContext>
   )
 }
 

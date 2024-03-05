@@ -1,25 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { TodoData } from '../../types'
 
-const data = [
-  {
-    id: 1,
-    title: "clone repo",
-    done: false,
-  },
-  {
-    id: 2,
-    title: "create app 2",
-    done: true,
-  },
-  {
-    id: 3,
-    title: "commit",
-    done: false,
-  }
-];
-data;
-
 export type TodosState = {
   todos: TodoData[]
 }
@@ -32,6 +13,10 @@ export const TodosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
+    setTodos: (state, action) => {
+      state.todos = action.payload
+      localStorage.setItem('todos', JSON.stringify(state.todos))
+    },
     removeTodoById: (state, action) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
       localStorage.setItem('todos', JSON.stringify(state.todos))
@@ -55,6 +40,6 @@ export const TodosSlice = createSlice({
   }
 })
 
-export const { removeTodoById, addTodo, patchTodo } = TodosSlice.actions
+export const { removeTodoById, addTodo, patchTodo, setTodos } = TodosSlice.actions
 
 export default TodosSlice.reducer
